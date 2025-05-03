@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../data/controllers/participant_controller.dart';
-import '../../data/models/participant_model.dart';
+import '../../controllers/participant_controller.dart';
+import '../../models/participant_model.dart';
 
 class ParticipantView extends StatelessWidget {
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
   const ParticipantView({
-    Key? key,
+    super.key,
     required this.isDarkMode,
     required this.toggleTheme,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

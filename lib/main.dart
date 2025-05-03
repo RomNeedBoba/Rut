@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rut/controllers/result_controller.dart';
+import 'package:rut/controllers/tracking_controller.dart';
 import 'theme/app_theme.dart';
-import 'data/controllers/participant_controller.dart';
-import 'data/controllers/race_controller.dart';
-import 'components/shared/main_shell.dart';
+import 'controllers/participant_controller.dart';
+import 'controllers/race_controller.dart';
+import 'Screens/shared/main_shell.dart';
 
 void main() {
   runApp(const RaceApp());
 }
 
 class RaceApp extends StatefulWidget {
-  const RaceApp({Key? key}) : super(key: key);
+  const RaceApp({super.key});
 
   @override
   State<RaceApp> createState() => _RaceAppState();
@@ -31,6 +33,8 @@ class _RaceAppState extends State<RaceApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => ParticipantController()),
         ChangeNotifierProvider(create: (_) => RaceController()),
+        ChangeNotifierProvider(create: (_) => TrackingController()),
+        ChangeNotifierProvider(create: (_) => ResultController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

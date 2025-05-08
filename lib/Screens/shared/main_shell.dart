@@ -10,10 +10,10 @@ class MainShell extends StatefulWidget {
   final VoidCallback toggleTheme;
 
   const MainShell({
-    Key? key,
+    super.key,
     required this.isDarkMode,
     required this.toggleTheme,
-  }) : super(key: key);
+  });
 
   @override
   State<MainShell> createState() => _MainShellState();

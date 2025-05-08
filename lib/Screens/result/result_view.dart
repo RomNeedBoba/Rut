@@ -8,10 +8,10 @@ class ResultView extends StatelessWidget {
   final VoidCallback toggleTheme;
 
   const ResultView({
-    Key? key,
+    super.key,
     required this.isDarkMode,
     required this.toggleTheme,
-  }) : super(key: key);
+  });
 
   String formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -56,7 +56,7 @@ class ResultView extends StatelessWidget {
                 constraints: BoxConstraints(
                     minWidth: isNarrow ? 600 : constraints.maxWidth),
                 child: DataTable(
-                  headingRowColor: MaterialStateProperty.all(Colors.grey[300]),
+                  headingRowColor: WidgetStateProperty.all(Colors.grey[300]),
                   columnSpacing: 20,
                   columns: const [
                     DataColumn(label: Text('Rank')),
@@ -78,15 +78,15 @@ class ResultView extends StatelessWidget {
                       final totalTime = swimTime + cycleTime + runTime;
 
                       String rankDisplay = '${index + 1}';
-                      if (index == 0)
+                      if (index == 0) {
                         rankDisplay = '🥇';
-                      else if (index == 1)
+                      } else if (index == 1)
                         rankDisplay = '🥈';
                       else if (index == 2) rankDisplay = '🥉';
 
                       return DataRow(
-                        color: MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
+                        color: WidgetStateProperty.resolveWith<Color?>(
+                          (Set<WidgetState> states) {
                             return index.isEven ? Colors.grey[100] : null;
                           },
                         ),

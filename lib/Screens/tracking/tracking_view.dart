@@ -47,110 +47,146 @@ class _TrackingViewState extends State<TrackingView> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Text(
-              "Global Time: ${formatDuration(globalTime)}",
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          int crossAxisCount = 3;
+          if (constraints.maxWidth < 600) {
+            crossAxisCount = 2;
+          }
+          if (constraints.maxWidth < 400) {
+            crossAxisCount = 1;
+          }
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: ['swim', 'cycle', 'run'].map((segment) {
-                final isSelected = trackingController.currentSegment == segment;
-                return ElevatedButton(
-                  onPressed: () {
-                    trackingController.setSegment(segment, globalTime);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isSelected ? Colors.blue : Colors.grey,
-                  ),
-                  child: Text(segment.toUpperCase()),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 1.2,
+          return Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Text(
+                  "Global Time: ${formatDuration(globalTime)}",
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                itemCount: participantController.participants.length,
-                itemBuilder: (context, index) {
-                  final participant = participantController.participants[index];
-                  final summary = trackingController.getParticipantSummary(participant.id);
-                  final segTime = summary[trackingController.currentSegment] ?? Duration.zero;
-                  final hasRecorded = trackingController.hasParticipantRecorded(participant.id);
-                  final isExpanded = expandedIds.contains(participant.id);
-
-                  return GestureDetector(
-                    onTap: () {
-                      if (isRaceRunning) {
-                        trackingController.recordParticipant(participant.id, globalTime);
-                        setState(() {
-                          if (isExpanded) {
-                            expandedIds.remove(participant.id);
-                          } else {
-                            expandedIds.add(participant.id);
-                          }
-                        });
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Race is not running')),
-                        );
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: hasRecorded ? Colors.blueAccent : Colors.grey[300],
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: hasRecorded
-                            ? [
-                                BoxShadow(
-                                  color: Colors.blueAccent.withOpacity(0.5),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ]
-                            : [],
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  alignment: WrapAlignment.center,
+                  children: ['swim', 'cycle', 'run'].map((segment) {
+                    final isSelected =
+                        trackingController.currentSegment == segment;
+                    return ElevatedButton(
+                      onPressed: () {
+                        trackingController.setSegment(segment, globalTime);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isSelected ? Colors.blue : Colors.grey,
+                        minimumSize: const Size(90, 40),
                       ),
-                      padding: const EdgeInsets.all(8),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              participant.bibNumber,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: hasRecorded ? Colors.white : Colors.black,
-                              ),
-                            ),
-                            if (isExpanded) ...[
-                              const SizedBox(height: 4),
-                              Text(
-                                "${trackingController.currentSegment}: ${formatDuration(segTime)}",
-                                style: const TextStyle(fontSize: 12, color: Colors.white),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
+                      child: Text(segment.toUpperCase()),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 1.2,
                     ),
-                  );
-                },
-              ),
+                    itemCount: participantController.participants.length,
+                    itemBuilder: (context, index) {
+                      final participant =
+                          participantController.participants[index];
+                      final summary = trackingController
+                          .getParticipantSummary(participant.id);
+                      final segTime =
+                          summary[trackingController.currentSegment] ??
+                              Duration.zero;
+                      final hasRecorded = trackingController
+                          .hasParticipantRecorded(participant.id);
+                      final isExpanded = expandedIds.contains(participant.id);
+
+                      return GestureDetector(
+                        onTap: () {
+                          if (isRaceRunning) {
+                            try {
+                              trackingController.recordParticipant(
+                                  participant.id, globalTime);
+                              setState(() {
+                                if (isExpanded) {
+                                  expandedIds.remove(participant.id);
+                                } else {
+                                  expandedIds.add(participant.id);
+                                }
+                              });
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(e
+                                        .toString()
+                                        .replaceAll('Exception: ', ''))),
+                              );
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Race is not running')),
+                            );
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: hasRecorded
+                                ? Colors.blueAccent
+                                : Colors.grey[300],
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: hasRecorded
+                                ? [
+                                    BoxShadow(
+                                      color: Colors.blueAccent.withOpacity(0.5),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ]
+                                : [],
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  participant.bibNumber,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: hasRecorded
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                if (isExpanded) ...[
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "${trackingController.currentSegment}: ${formatDuration(segTime)}",
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.white),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

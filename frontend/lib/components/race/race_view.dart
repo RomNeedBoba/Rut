@@ -8,10 +8,10 @@ class RaceView extends StatelessWidget {
   final VoidCallback toggleTheme;
 
   const RaceView({
-    Key? key,
+    super.key,
     required this.isDarkMode,
     required this.toggleTheme,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,8 @@ class RaceView extends StatelessWidget {
                 children: [
                   Text(
                     'Race: ${raceController.currentRace!.name}',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   Text('Status: ${raceController.currentRace!.status}'),

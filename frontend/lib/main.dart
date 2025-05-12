@@ -10,7 +10,7 @@ void main() {
 }
 
 class RaceApp extends StatefulWidget {
-  const RaceApp({Key? key}) : super(key: key);
+  const RaceApp({super.key});
 
   @override
   State<RaceApp> createState() => _RaceAppState();

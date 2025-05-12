@@ -8,10 +8,10 @@ class ParticipantView extends StatelessWidget {
   final VoidCallback toggleTheme;
 
   const ParticipantView({
-    Key? key,
+    super.key,
     required this.isDarkMode,
     required this.toggleTheme,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class ParticipantView extends StatelessWidget {
 }
 
 class AddParticipantDialog extends StatefulWidget {
-  const AddParticipantDialog({Key? key}) : super(key: key);
+  const AddParticipantDialog({super.key});
 
   @override
   State<AddParticipantDialog> createState() => _AddParticipantDialogState();

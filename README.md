@@ -1,16 +1,21 @@
-# rut
+Rut is a powerful race tracking application designed to help athletes, coaches, and event organizers accurately monitor and manage performance across triathlon events—including swimming, cycling, and running. Whether it's a training session or a real race, Rut ensures every second counts.
 
-A new Flutter project.
+🔧 Built with Modern Tech: 💙 Flutter for a smooth, cross-platform mobile experience (iOS & Android)
 
-## Getting Started
+🌐 Node.js backend for fast, real-time data handling and API performance
 
-This project is a starting point for a Flutter application.
+🔥 Key Features: Real-Time Time Tracking Seamlessly records and updates the time for each stage—swimming, cycling, and running—in one unified dashboard.
 
-A few resources to get you started if this is your first Flutter project:
+Stage-by-Stage Monitoring Live updates on each discipline with total elapsed time and clear stage transitions.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Clean Navigation Intuitive UI with dedicated modules for:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🏊 Participant Management
+
+🚴 Race Setup
+
+⏱️ Time Tracking
+
+🏁 Result Display
+
+Lightweight & Efficient Optimized for speed, reliability, and accurate race-day execution.
